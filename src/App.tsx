@@ -1,13 +1,13 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Container from "react-bootstrap/Container";
-import AppNavbar from "./components/AppNavbar";
+//import AppNavbar from "./components/AppNavbar"; // There was no navbar in the illustration I used it for testing purpose only
 import Movies from "./pages/Movies";
 import Sandbox from "./pages/Sandbox";
 
 export default function App() {
   return (
     <BrowserRouter>
-      <AppNavbar />
+      {/*<AppNavbar />*/}
 
       <Container className="mt-4">
         <Routes>

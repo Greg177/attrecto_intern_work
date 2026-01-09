@@ -1,6 +1,4 @@
-import Container from "react-bootstrap/Container";
 import Card from "react-bootstrap/Card";
-import Badge from "react-bootstrap/Badge";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
@@ -9,9 +7,11 @@ import Col from "react-bootstrap/Col";
 import { useMemo, useState } from "react";
 import { ArrowDownUp } from "react-bootstrap-icons";
 
-import { MOVIES } from "../data/movies.ts";
+import { MOVIES } from "../data/movies";
 import type { Movie } from "../models/Movie";
 import MovieList from "../components/MovieList";
+import PageTabs from "../components/PageTabs";
+import { Container } from "react-bootstrap";
 
 type SortBy = "rating" | "title" | "year";
 type SortDir = "desc" | "asc";
@@ -68,7 +68,6 @@ export default function Movies() {
   const handleDelete = (id: number) => {
     setMovies((prev) => prev.filter((m) => m.id !== id));
 
-    // ha épp ezt szerkesztetted, lépj ki edit módból
     if (editingMovieId === id) {
       setEditingMovieId(null);
       setEditTitle("");
@@ -80,21 +79,12 @@ export default function Movies() {
 
   return (
     <Container className="py-4">
-      <Card className="shadow-sm">
-        <Card.Body>
-          <div className="d-flex justify-content-between align-items-center">
-            <div>
-              <h1 className="h4 mb-1">Movies</h1>
-              <div className="text-muted">List, edit, delete, sort</div>
-            </div>
-            <Badge bg="secondary" pill>
-              React + TS
-            </Badge>
-          </div>
-
-          {/* Edit panel (csak ha van kiválasztva) */}
+        <PageTabs /> {/* Including PageTabs for navigation */}
+      <Card className="shadow-sm mt-3">
+        <Card.Body className="p-4">
+          {/* Edit panel */}
           {editingMovie && (
-            <div className="mt-3">
+            <div className="mb-3">
               <div className="fw-semibold mb-1">
                 Edit &quot;{editingMovie.title}&quot;
               </div>
@@ -121,29 +111,25 @@ export default function Movies() {
           )}
 
           {/* Sort bar */}
-          <div className="mt-3">
-            <div className="fw-semibold mb-1">Sort by</div>
-            <Row className="g-2 align-items-center">
-              <Col>
-                <Form.Select
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value as SortBy)}
-                >
-                  <option value="rating">Rating</option>
-                  <option value="title">Title</option>
-                  <option value="year">Year</option>
-                </Form.Select>
-              </Col>
-              <Col xs="auto">
-                <Button
-                  variant="primary"
-                  onClick={toggleSortDir}
-                  title="Toggle sort direction"
-                >
-                  <ArrowDownUp />
-                </Button>
-              </Col>
-            </Row>
+          <div className="fw-semibold mb-1">Sort by</div>
+          <div className="d-flex gap-2 align-items-center">
+            <Form.Select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as SortBy)}
+            >
+              <option value="rating">Rating</option>
+              <option value="title">Title</option>
+              <option value="year">Year</option>
+            </Form.Select>
+
+            <Button
+              variant="primary"
+              onClick={toggleSortDir}
+              className="px-2"
+              title="Toggle sort direction"
+            >
+              <ArrowDownUp />
+            </Button>
           </div>
 
           {/* List */}
