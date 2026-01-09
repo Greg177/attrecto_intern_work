@@ -10,7 +10,9 @@ export default function Movies() {
           <div className="d-flex justify-content-between align-items-center">
             <div>
               <h1 className="h4 mb-1">Movies</h1>
-              <div className="text-muted">List, edit, delete, sort (coming next)</div>
+              <div className="text-muted">
+                List, edit, delete, sort (coming next)
+              </div>
             </div>
             <Badge bg="secondary" pill>
               React + TS
