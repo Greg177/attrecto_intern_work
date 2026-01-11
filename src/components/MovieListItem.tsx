@@ -11,6 +11,7 @@ type Props = {
   onDelete: (id: number) => void;
 };
 
+
 export default function MovieListItem({
   movie,
   index,
@@ -18,8 +19,12 @@ export default function MovieListItem({
   onEdit,
   onDelete,
 }: Props) {
+
+  // Determine if the index is even for styling feature
+  const isEven = index % 2 !== 1;
+
   return (
-    <Card className={`mb-2 ${isEditing ? "border-primary" : ""}`}>
+    <Card className={`mb-2 ${isEditing ? "border-primary" : ""} ${isEven ? "bg-secondary bg-opacity-10" : ""}`}>
       <Card.Body className="d-flex align-items-center justify-content-between">
         <div className="d-flex align-items-center gap-3">
           <img

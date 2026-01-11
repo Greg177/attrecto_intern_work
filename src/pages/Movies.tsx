@@ -5,7 +5,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
 import { useMemo, useState } from "react";
-import { ArrowDownUp } from "react-bootstrap-icons";
+import { SortDown, SortUpAlt } from "react-bootstrap-icons";
 
 import { MOVIES } from "../data/movies";
 import type { Movie } from "../models/Movie";
@@ -17,19 +17,24 @@ type SortBy = "rating" | "title" | "year";
 type SortDir = "desc" | "asc";
 
 export default function Movies() {
+  // State
   const [movies, setMovies] = useState<Movie[]>(MOVIES);
 
+  // Edit state
   const [editingMovieId, setEditingMovieId] = useState<number | null>(null);
   const [editTitle, setEditTitle] = useState<string>("");
 
+  // Sort state
   const [sortBy, setSortBy] = useState<SortBy>("rating");
   const [sortDir, setSortDir] = useState<SortDir>("desc");
 
+  // Memos
   const editingMovie = useMemo(
     () => movies.find((m) => m.id === editingMovieId) ?? null,
     [movies, editingMovieId]
   );
 
+  // Sorted movies
   const sortedMovies = useMemo(() => {
     const copy = [...movies];
 
@@ -46,13 +51,15 @@ export default function Movies() {
     return copy;
   }, [movies, sortBy, sortDir]);
 
+  // Handlers
   const handleEdit = (movie: Movie) => {
     setEditingMovieId(movie.id);
     setEditTitle(movie.title);
   };
 
+  // Save edited title
   const handleSave = () => {
-    if (!editingMovieId) return;
+    if (!editingMovieId) return; // another solution for this is -> if (editingMovieId === null) return;
 
     const trimmed = editTitle.trim();
     if (!trimmed) return;
@@ -65,15 +72,19 @@ export default function Movies() {
     setEditTitle("");
   };
 
+  // Delete movie
   const handleDelete = (id: number) => {
+    // Remove from list
     setMovies((prev) => prev.filter((m) => m.id !== id));
 
+    // If the deleted movie is being edited, clear the edit state
     if (editingMovieId === id) {
       setEditingMovieId(null);
       setEditTitle("");
     }
   };
 
+  // Toggle sort direction
   const toggleSortDir = () =>
     setSortDir((d) => (d === "asc" ? "desc" : "asc"));
 
@@ -128,7 +139,8 @@ export default function Movies() {
               className="px-2"
               title="Toggle sort direction"
             >
-              <ArrowDownUp />
+              {/* Check for sort direction and switch if needed */}
+              {sortDir === "asc" ? <SortUpAlt /> : <SortDown />}
             </Button>
           </div>
 
